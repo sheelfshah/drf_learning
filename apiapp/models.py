@@ -52,10 +52,11 @@ class CityTown(models.Model):
     population = models.IntegerField()
     GDP = models.FloatField()
     pincode = models.CharField(max_length=20)
+    is_city = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = "State"
-        verbose_name_plural = "States"
+        verbose_name = "CityTown"
+        verbose_name_plural = "CityTowns"
 
     def __str__(self):
         return self.name
