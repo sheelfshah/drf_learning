@@ -10,6 +10,9 @@ urlpatterns = [
     path('citytowns/', views.CityTownList.as_view(), name="citytown-list"),
     path('citytowns/<int:pk>/', views.CityTownDetail.as_view(),
          name="citytown-detail"),
+    path('persons/', views.PersonList.as_view(), name="person-list"),
+    path('persons/<int:pk>/', views.PersonDetail.as_view(),
+         name="person-detail"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

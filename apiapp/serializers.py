@@ -4,12 +4,19 @@ from .models import Country, State, CityTown, Person
 
 class CountrySerializer(serializers.ModelSerializer):
 
+    states = serializers.SerializerMethodField()
+
+    def get_states(self, obj):
+        queryset = obj.states.all()
+        request = self.context.get("request")
+        return StateNameSerializer(queryset, many=True, context={'request': request}).data
+
     class Meta:
         model = Country
         fields = [
             'id', 'name',
             'description', 'population',
-            'GDP'
+            'GDP', 'states'
         ]
 
     def update(self, instance, validated_data):
@@ -61,3 +68,47 @@ class CityTownSerializer(serializers.ModelSerializer):
         if 'name' in validated_data:
             del validated_data['name']
         return super().update(instance, validated_data)
+
+
+class PersonSerializer(serializers.ModelSerializer):
+
+    citytown = serializers.HyperlinkedRelatedField(
+        queryset=CityTown.objects.all(), view_name='citytown-detail')
+
+    class Meta:
+        model = Person
+        fields = [
+            'id', 'name',
+            'citytown'
+        ]
+
+
+class CityTownNameSerializer(serializers.ModelSerializer):
+
+    link = serializers.HyperlinkedIdentityField(view_name="citytown-detail")
+
+    class Meta:
+        model = CityTown
+        fields = [
+            'name',
+            'link'
+        ]
+
+
+class StateNameSerializer(serializers.ModelSerializer):
+
+    link = serializers.HyperlinkedIdentityField(view_name="state-detail")
+    citytowns = serializers.SerializerMethodField()
+
+    class Meta:
+        model = State
+        fields = [
+            'name',
+            'link',
+            'citytowns'
+        ]
+
+    def get_citytowns(self, obj):
+        queryset = obj.citytowns.all()
+        request = self.context.get("request")
+        return CityTownNameSerializer(queryset, many=True, context={'request': request}).data

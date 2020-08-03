@@ -6,7 +6,8 @@ from rest_framework import status
 from .serializers import (
     CountrySerializer,
     StateSerializer,
-    CityTownSerializer)
+    CityTownSerializer,
+    PersonSerializer)
 
 from .models import (
     Country, State,
@@ -18,11 +19,13 @@ class CountryList(APIView):
 
     def get(self, request, format=None):
         countries = Country.objects.all()
-        serializer = CountrySerializer(countries, many=True)
+        serializer = CountrySerializer(
+            countries, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = CountrySerializer(data=request.data)
+        serializer = CountrySerializer(
+            data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -40,12 +43,13 @@ class CountryDetail(APIView):
 
     def get(self, request, pk, format=None):
         country = self.get_object(pk)
-        serializer = CountrySerializer(country)
+        serializer = CountrySerializer(country, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         country = self.get_object(pk)
-        serializer = CountrySerializer(country, data=request.data)
+        serializer = CountrySerializer(
+            country, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -148,4 +152,51 @@ class CityTownDetail(APIView):
     def delete(self, request, pk, format=None):
         ct = self.get_object(pk)
         ct.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PersonList(APIView):
+    serializer_class = PersonSerializer
+
+    def get(self, request, format=None):
+        persons = Person.objects.all()
+        serializer = PersonSerializer(
+            persons, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = PersonSerializer(
+            data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PersonDetail(APIView):
+    serializer_class = PersonSerializer
+
+    def get_object(self, pk):
+        try:
+            return Person.objects.get(pk=pk)
+        except Person.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        person = self.get_object(pk)
+        serializer = PersonSerializer(person, context={'request': request})
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        person = self.get_object(pk)
+        serializer = PersonSerializer(
+            person, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        person = self.get_object(pk)
+        person.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
