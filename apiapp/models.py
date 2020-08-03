@@ -48,6 +48,7 @@ class CityTown(models.Model):
     # no need to add country, since it can be retrieved from state
 
     name = models.CharField(max_length=100, unique=True)  # read_only
+    # name has been added to make understanding easier
     description = models.TextField(max_length=1000)  # to set textbox size
     population = models.IntegerField()
     GDP = models.FloatField()
@@ -76,7 +77,7 @@ class Person(models.Model):
             "citytown__state__pk",
             "citytown__state__country__pk"
         ]   # sorting based on the primary keys of the associated objects
-        # in the order required
+        # in the order required=True
 
     def __str__(self):
         return self.name
