@@ -71,6 +71,12 @@ class Person(models.Model):
     class Meta:
         verbose_name = "Person"
         verbose_name_plural = "Persons"
+        ordering = [
+            "citytown__pk",
+            "citytown__state__pk",
+            "citytown__state__country__pk"
+        ]   # sorting based on the primary keys of the associated objects
+        # in the order required
 
     def __str__(self):
         return self.name

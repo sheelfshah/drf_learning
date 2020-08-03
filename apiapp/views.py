@@ -2,6 +2,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 
 from .serializers import (
     CountrySerializer,
@@ -159,9 +160,11 @@ class PersonList(APIView):
     serializer_class = PersonSerializer
 
     def get(self, request, format=None):
+        paginator = PageNumberPagination()
         persons = Person.objects.all()
+        result_page = paginator.paginate_queryset(persons, request)
         serializer = PersonSerializer(
-            persons, many=True, context={'request': request})
+            result_page, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request, format=None):
