@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "03439f80-68d0-420a-a1cd-f4567a640af3",
+		"name": "api_internship_01",
+		"description": "DRF api testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "City List Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8000/api/citytowns/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"citytowns",
+						""
+					]
+				},
+				"description": "gives list of all cities/towns\r\nsimilar exists for states and countries by replacing \"citytowns\" in url with \"states\" or \"countries\""
+			},
+			"response": []
+		},
+		{
+			"name": "create city",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "city02.01.01",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "lorem ipsum",
+							"type": "text"
+						},
+						{
+							"key": "population",
+							"value": "100",
+							"type": "text"
+						},
+						{
+							"key": "GDP",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "pincode",
+							"value": "738473847",
+							"type": "text"
+						},
+						{
+							"key": "state",
+							"value": "http://127.0.0.1:8000/api/states/1/",
+							"type": "text"
+						},
+						{
+							"key": "is_city",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/api/citytowns/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"citytowns",
+						""
+					]
+				},
+				"description": "post on the list page to create city/town\r\nsimilar works for states creation too\r\ncountry creation does not need hyperlink\r\ntry posting the same request twice, it will raise duplication error"
+			},
+			"response": []
+		},
+		{
+			"name": "delete city",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/citytowns/7/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"citytowns",
+						"7",
+						""
+					]
+				},
+				"description": "sending delete request to the appropriate address to delete the city/state/country and all associated objects\r\nstatus of 204 indicates successful deletion.\r\ntry deleting the same id twice, it will cause not found error"
+			},
+			"response": []
+		},
+		{
+			"name": "update city details",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "anything here will not affect the city object",
+							"description": "the name will not change",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "lorem ipsum",
+							"type": "text"
+						},
+						{
+							"key": "population",
+							"value": "400",
+							"description": "all other fields will get changed if they have been altered",
+							"type": "text"
+						},
+						{
+							"key": "GDP",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "pincode",
+							"value": "95895892",
+							"type": "text"
+						},
+						{
+							"key": "state",
+							"value": "http://127.0.0.1:8000/api/states/1/",
+							"type": "text"
+						},
+						{
+							"key": "is_city",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/citytowns/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"citytowns",
+						"1",
+						""
+					]
+				},
+				"description": "works for state/country similarly too.\r\ntrying to change the name creates a successful request but does not change the name.(since it is specified as uneditable)\r\nall other parameters that were changed get updated"
+			},
+			"response": []
+		},
+		{
+			"name": "person create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "person_x",
+							"type": "text"
+						},
+						{
+							"key": "citytown",
+							"value": "http://127.0.0.1:8000/api/citytowns/1/",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/persons/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"persons",
+						""
+					]
+				},
+				"description": "use post to create a person"
+			},
+			"response": []
+		},
+		{
+			"name": "person delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/persons/2/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"persons",
+						"2",
+						""
+					]
+				},
+				"description": "simialr to pervious deletes"
+			},
+			"response": []
+		},
+		{
+			"name": "persons with pagination",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/persons/?page=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"persons",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				},
+				"description": "list of all people sorted in the required order and limited to 5 entries per page\r\nchange the page number in the link to see other people\r\nthe people were created in a random order and assigned city in another order, but the list is sorted in the city, state, country order(based on id)"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
