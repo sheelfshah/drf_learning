@@ -53,7 +53,7 @@ class CityTown(models.Model):
     population = models.IntegerField()
     GDP = models.FloatField()
     pincode = models.CharField(max_length=20)
-    is_city = models.BooleanField(default=False)
+    is_city = models.BooleanField()
 
     class Meta:
         verbose_name = "CityTown"

@@ -284,6 +284,40 @@
 				"description": "list of all people sorted in the required order and limited to 5 entries per page\r\nchange the page number in the link to see other people\r\nthe people were created in a random order and assigned city in another order, but the list is sorted in the city, state, country order(based on id)"
 			},
 			"response": []
+		},
+		{
+			"name": "country creation with nested data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"country2\",\r\n    \"description\": \"some text\",\r\n    \"population\": 1000,\r\n    \"GDP\": 1,\r\n    \"nested_states\": [\r\n        {\r\n            \"name\": \"state2.1\",\r\n            \"description\": \"some text\",\r\n            \"population\": 100,\r\n            \"GDP\": 1,\r\n            \"nested_cities\": [\r\n                {\r\n                    \"name\": \"city2.1.1\",\r\n                    \"description\": \"dgdg\",\r\n                    \"population\": 50,\r\n                    \"GDP\": 0.9,\r\n                    \"pincode\": \"75730758\",\r\n                    \"is_city\": \"true\"\r\n                },\r\n                {\r\n                    \"name\": \"city2.1.2\",\r\n                    \"description\": \"dgdg\",\r\n                    \"population\": 50,\r\n                    \"GDP\": 0.9,\r\n                    \"pincode\": \"75730758\",\r\n                    \"is_city\": \"true\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"name\": \"state2.2\",\r\n            \"description\": \"some text\",\r\n            \"population\": 100,\r\n            \"GDP\": 1,\r\n            \"nested_cities\": [\r\n                {\r\n                    \"name\": \"city2.2.1\",\r\n                    \"description\": \"dgdg\",\r\n                    \"population\": 50,\r\n                    \"GDP\": 0.9,\r\n                    \"pincode\": \"75730758\",\r\n                    \"is_city\": \"false\"\r\n                },\r\n                {\r\n                    \"name\": \"city2.2.2\",\r\n                    \"description\": \"dgdg\",\r\n                    \"population\": 50,\r\n                    \"GDP\": 0.9,\r\n                    \"pincode\": \"75730758\",\r\n                    \"is_city\": \"true\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/countries/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"countries",
+						""
+					]
+				},
+				"description": "create country as well as the states and cities inside it using nested serializers\r\nview the data n raw format, as it could not be created in form-data format"
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
